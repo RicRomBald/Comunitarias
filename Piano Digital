@@ -1,0 +1,140 @@
+#include <Arduino.h>
+#include <MD_Parola.h>
+#include <MD_MAX72xx.h>
+#include <SPI.h>
+#include <DFRobotDFPlayerMini.h>
+
+#define HARDWARE_TYPE MD_MAX72XX::GENERIC_HW
+#define MAX_DEVICES 4 // 4 blocks
+#define CS_PIN 21
+#define DIN_PIN 23
+#define CLK_PIN 18
+
+HardwareSerial hwSerial(1);
+DFRobotDFPlayerMini dfPlayer;
+
+MD_Parola ledMatrix = MD_Parola(HARDWARE_TYPE,DIN_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+
+int bt1 = 13; //Gato
+int bt2 = 12; //Perro
+int bt3 = 14; //Vaca
+int bt4 = 27; //Oveja
+int bt5 = 26; //Pato
+int bt6 = 25; //Cerdo
+int bt7 = 33; //Rana
+int bt8 = 32; //Pollito
+int bt9 = 15; //Caballo
+
+void setup() {
+  ledMatrix.begin();         // initialize the LED Matrix
+  ledMatrix.setIntensity(0); // set the brightness of the LED matrix display (from 0 to 15)
+  ledMatrix.displayClear();  // clear LED matrix display;
+
+  pinMode(bt1, INPUT_PULLUP);
+  pinMode(bt2, INPUT_PULLUP);
+  pinMode(bt3, INPUT_PULLUP);
+  pinMode(bt4, INPUT_PULLUP);
+  pinMode(bt5, INPUT_PULLUP);
+  pinMode(bt6, INPUT_PULLUP);
+  pinMode(bt7, INPUT_PULLUP);
+  pinMode(bt8, INPUT_PULLUP);
+  pinMode(bt9, INPUT_PULLUP);
+
+  hwSerial.begin(9600, SERIAL_8N1, 16, 17);  // speed, type, RX, TX
+  Serial.begin(115200);
+
+  dfPlayer.begin(hwSerial);  //Use softwareSerial to communicate with mp3
+  dfPlayer.setTimeOut(500); //Set serial communication time out 500ms
+  dfPlayer.volume(30);  //Set volume value (0~30).
+  dfPlayer.EQ(DFPLAYER_EQ_NORMAL);
+  dfPlayer.outputDevice(DFPLAYER_DEVICE_SD);
+
+  ledMatrix.setTextAlignment(PA_CENTER);
+  ledMatrix.print("Hola :)"); // display text
+  delay(1000);
+}
+
+void loop() {
+  ledMatrix.setTextAlignment(PA_CENTER);
+  ledMatrix.print("Press"); // display text
+  
+  // put your main code here, to run repeatedly:
+    if(digitalRead(bt1) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Gato"); // display text
+      dfPlayer.play(1);
+      delay(2000);
+      ledMatrix.displayClear(); 
+      
+    }
+    else if(digitalRead(bt2) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Perro"); // display text
+      dfPlayer.play(2);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt3) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Vaca"); // display text
+      dfPlayer.play(3);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt4) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Oveja"); // display text
+      dfPlayer.play(4);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt5) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Pato"); // display text
+      dfPlayer.play(5);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt6) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Cerdo"); // display text
+      dfPlayer.play(6);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt7) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Rana"); // display text
+      dfPlayer.play(7);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt8) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Pollito"); // display text
+      dfPlayer.play(8);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+    else if(digitalRead(bt9) == 0)
+    {
+      ledMatrix.setTextAlignment(PA_CENTER);
+      ledMatrix.print("Caballo"); // display text
+      dfPlayer.play(9);
+      delay(2000);
+      ledMatrix.displayClear(); 
+    }
+}
+
+// put function definitions here:
+/*int myFunction(int x, int y) {
+  return x + y;
+}*/
